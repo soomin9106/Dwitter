@@ -1,44 +1,53 @@
+import * as userRepository from './auth.js';
 let tweets =[
     {
         id : '1',
         text : "back-end is so hard,, but fun!", 
-        createdAt : Date.now().toString(),
-        name : "Daisy",
-        username : "DaisyPretty",
-        url : "https://cdn.expcloud.co/life/uploads/2020/04/27135731/Fee-gentry-hed-shot-1.jpg"
+        createdAt : new Date().toString(),
+        userId:'1',
     },
     {
         id : '2',
         text : "front-end is sooo good!", 
-        createdAt : Date.now().toString(),
-        name : "Bob",
-        username : "bobbob",
-        url : "https://widgetwhats.com/app/uploads/2019/11/free-profile-photo-whatsapp-4-300x300.png"
+        createdAt : new Date().toString(),
+        userId:'1',
     }
 ];
 
 export async function getAll() {
-    return tweets;
+    return Promise.all(
+        tweets.map(async (tweet) => {
+            const {username,name,url} =await userRepository.findById(
+                tweet.userId
+            );
+            return {...tweets,username,name,url};
+        })
+    );
 }
 
 export async function getAllByUserName(username){
-    return tweets.filter((tweet) => tweet.username === username);
+    return getAll()
+    .then((tweets) => tweets.filter((tweet) => tweet.username === username));
 }
 
 export async function getAllById(id){
-    return tweets.find((tweet) => tweet.id === id);
+    const found = tweets.find((tweet) => tweet.id === id);
+    if(!found){
+        return null;
+    } 
+    const {username,name,url} =await userRepository.findById(found.userId);
+    return {...found,username,name,url};
 }
 
-export async function create(text,name,username){
+export async function create(text,userId){
     const tweet = {
         id: Date.now().toString(),
         text,
         createdAt: new Date(),
-        name,
-        username,
+        userId,
     };
     tweets = [tweet,...tweets];
-    return tweet;
+    return getAllById(tweet.id);
 }
 
 export async function update(id, text) {
@@ -46,7 +55,7 @@ export async function update(id, text) {
     if(tweet){
         tweet.text=text;
     }
-    return tweet;
+    return getAllById(tweet.id);
 }
 
 export async function remove(id) {
