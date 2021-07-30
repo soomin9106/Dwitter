@@ -16,7 +16,7 @@ export const isAuth = async (req, res, next) => {
     // TODO: Make it secure!
     jwt.verify(
       token,
-      'F2dN7x8HVzBWaQuEEDnhsvHXRWqAR63z',
+      'F2dN7x8HVzBWaQuEEDnhsvHXRWqAR63w',
       async (error, decoded) => {
         if (error) {
           return res.status(401).json(AUTH_ERROR);
