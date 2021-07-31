@@ -32,22 +32,22 @@ export async function updateTweet(req,res){
     if (!tweet) {
         return res.status(404).json({ message: `Tweet not found: ${id}` });
       }
-      if (tweet.userId !== req.userId) {
+      if (tweet.userId !== req.userId) { //로그인 된 사용자이지만 특별한 권한이 없을 때 
         return res.sendStatus(403);
       }
       const updated = await tweetRepository.update(id, text);
-      res.status(200).json(updated);
+      return res.status(200).json(updated);
 }
 
 export async function removeTweet(req,res){
     const id = req.params.id;
     const tweet = await tweetRepository.getAllById(id);
-    if (!tweet) {
-      return res.status(404).json({ message: `Tweet not found: ${id}` });
-    }
-    if (tweet.userId !== req.userId) {
-      return res.sendStatus(403);
+    if(!tweet){
+        return res.sendStatus(404);
+    } 
+    if(tweet.userId !== req.userId){
+        return res.sendStatus(403);
     }
     await tweetRepository.remove(id);
-    res.sendStatus(204);
+    return res.status(204);
 }
