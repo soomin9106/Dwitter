@@ -16,22 +16,22 @@ let tweets =[
 
 export async function getAll() {
     return Promise.all(
-        tweets.map(async (tweet) => {
+        tweets.map(async tweet => {
             const {username,name,url} =await userRepository.findById(
                 tweet.userId
             );
-            return {...tweets,username,name,url};
+            return {...tweet,username,name,url};
         })
     );
 }
 
 export async function getAllByUserName(username){
     return getAll()
-    .then((tweets) => tweets.filter((tweet) => tweet.username === username));
+    .then(tweets => tweets.filter(tweet => tweet.username === username));
 }
 
 export async function getAllById(id){
-    const found = tweets.find((tweet) => tweet.id === id);
+    const found = tweets.find(tweet => tweet.id === id);
     if(!found){
         return null;
     } 
@@ -51,7 +51,7 @@ export async function create(text,userId){
 }
 
 export async function update(id, text) {
-    const tweet=tweets.find((tweet) => tweet.id === id);
+    const tweet=tweets.find(tweet => tweet.id === id);
     if(tweet){
         tweet.text=text;
     }
@@ -59,5 +59,5 @@ export async function update(id, text) {
 }
 
 export async function remove(id) {
-    tweets = tweets.filter((tweet) => tweet.id !== id);
+    tweets = tweets.filter(tweet => tweet.id !== id);
 }

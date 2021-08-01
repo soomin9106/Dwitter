@@ -22,7 +22,7 @@ const validateTweet = [
 //GET /tweets?username=:username
 router.get('/',isAuth,tweetController.getTweets);
 //GET /tweets/:id
-router.get('/:id',isAuth, tweetController.getTweetsById)
+router.get('/:id',isAuth, tweetController.getTweetsById);
 //POST /tweets
 router.post('/',isAuth,validateTweet,tweetController.createTweet);
 //PUT /tweets/id
