@@ -8,6 +8,13 @@ let users = [
         email:'bobbob@naver.com',
         url :'',
     },
+    {
+        id : '2',
+        username : 'ellie',
+        password : '$2b$12$G9xf8SFq3oTEgdj7ozHQ/uhDOyeQcUEDU8tnOcvpvApuadr3nE5Vm',
+        name :'Ellie',
+        email:'Ellie@naver.com',
+    },
 ]
 
 
