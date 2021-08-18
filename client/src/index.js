@@ -8,6 +8,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
 import { AuthErrorEventBus } from './context/AuthContext';
 import HttpClient from './network/http';
+import Socket from './network/socket';
 import TokenStorage from './db/token';
 import socket, { io } from 'socket.io-client';
 
@@ -15,9 +16,10 @@ import socket, { io } from 'socket.io-client';
 const baseURL = "http://localhost:8080";
 const tokenStorage=new TokenStorage();
 const authErrorEventBus = new AuthErrorEventBus();
+const socketClient = new Socket(baseURL,()=>tokenStorage.getToken());
 const httpClient = new HttpClient(baseURL,authErrorEventBus);
 const authService = new AuthService(httpClient,tokenStorage);
-const tweetService = new TweetService(httpClient,tokenStorage);
+const tweetService = new TweetService(httpClient,tokenStorage,socketClient);
 
 const socketIO = socket(baseURL);
 socketIO.on('connect_error',(error) => {
