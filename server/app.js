@@ -8,6 +8,7 @@ import authRouter from './router/auth.js'
 import { config } from './config.js';
 import {initSocket} from './connection/socket.js';
 
+
 const app=express();
 
 //middleware setting 
