@@ -21,8 +21,7 @@ export async function createUser(user){
     [username,password,name,email,url]
    )
     .then((result) => {
-       console.log(result);
-       return result;
+       result[0].insertId;
    });
 }
 
